@@ -1,0 +1,7 @@
+{
+  "name": "unaPieza_APP",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
