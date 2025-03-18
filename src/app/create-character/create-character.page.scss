@@ -1,0 +1,48 @@
+header{
+  margin: 20px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 20px;
+}
+
+h1{
+  margin: 10px 0;
+}
+
+main{
+  height: 80%;
+  margin: 0 200px;
+  padding: 20px 50px;
+  
+  background-color: #1c1c1c;
+  border-radius: 20px;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 15px;
+}
+
+button{
+  padding: 15px;
+  border-radius: 15px;
+  background-color: #4d8dff;
+}
+
+form > div {
+  width: 100%;
+  margin-bottom: 3px;
+}
+
+form > div > span {
+  font-size: 15px;
+  color: red;
+}
+
+button:hover{
+  background-color: #135fe2;
+}

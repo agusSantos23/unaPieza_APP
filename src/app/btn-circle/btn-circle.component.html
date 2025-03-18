@@ -1,0 +1,24 @@
+
+@switch (type) {
+
+  @case ('add') {
+    <div (click)="redirectToSaveCharacter()" >
+      <ion-fab>
+        <ion-fab-button >
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>  
+    </div>
+  }
+
+  @case ('back') {
+    <div (click)="redirectBack()">
+      <ion-fab>
+        <ion-fab-button >
+          <ion-icon name="arrow-back-outline"></ion-icon>        
+        </ion-fab-button>
+      </ion-fab>  
+    </div>
+  }
+}
+

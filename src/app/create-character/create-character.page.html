@@ -1,0 +1,74 @@
+<header>
+
+  <app-btn-circle type="back" />
+
+  <h1>Add Character</h1>
+
+
+</header>
+
+<main>
+
+
+  <form [formGroup]="characterForm" (ngSubmit)="save()">
+
+    
+    <div>
+      <ion-input type="text" fill="solid" label="Name" labelPlacement="floating" helperText="Fill in this field"
+      errorText="Invalid Name" formControlName="name"></ion-input>
+
+      @if (characterForm.value.name === "" && isSend) {
+        <span>Name is required</span>
+      }
+    </div>
+   
+
+    <div>
+      <ion-select label="What is your gender?" label-placement="floating" formControlName="gender">
+        <ion-select-option value="male">Male</ion-select-option>
+        <ion-select-option value="female">Female</ion-select-option>
+        <ion-select-option value="unknown">Unknown</ion-select-option>
+      </ion-select>
+      @if ((characterForm.value.gender === "" || characterForm.value.gender === undefined) && isSend) {
+        <span>Gender is required</span>
+      }
+    </div>
+   
+    <div>
+      <ion-select label="What is your side?" label-placement="floating" formControlName="band">
+        <ion-select-option value="pirates">Pirates</ion-select-option>
+        <ion-select-option value="marine">Marine</ion-select-option>
+        <ion-select-option value="none">none</ion-select-option>
+      </ion-select>
+      
+      @if ((characterForm.value.band === "" || characterForm.value.gender === undefined) && isSend) {
+        <span>Band is required</span>
+      }
+    </div>
+    
+    <div>
+      <ion-select label="What is your level?" label-placement="floating" formControlName="level">
+        <ion-select-option value="low">Low</ion-select-option>
+        <ion-select-option value="medium">Medium</ion-select-option>
+        <ion-select-option value="high">High</ion-select-option>
+      </ion-select>
+
+      @if ((characterForm.value.level === "" || characterForm.value.level === undefined) && isSend) {
+        <span>Level is required</span>
+      }
+    </div>
+
+    <ion-checkbox formControlName="ateDevilFruit">Has this character eaten a Devil Fruit?</ion-checkbox>
+
+    @if (characterForm.value.ateDevilFruit) {
+      <ion-input type="text" fill="solid" label="Which Fruit" labelPlacement="floating"
+      formControlName="whichFruit" helperText="Example: (Gomu Gomu, Mera Mera)"></ion-input>
+    }
+
+    <button type="submit">Guardar</button>
+  </form>
+
+
+</main>
+
+<footer></footer>
