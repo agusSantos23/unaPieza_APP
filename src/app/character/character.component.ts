@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   IonButton,
   IonCard,
@@ -6,15 +6,20 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  ToastController
 } from '@ionic/angular/standalone';
+import { ApiUnaPiezaService } from '../api-una-pieza.service';
+import { UtilsService } from '../utils.service';
+import { Router } from '@angular/router';
 
-interface Character{
-  name:string;
+export interface Character{
+  id: number | undefined;
+  name: string;
   gender: 'male' | 'female' | 'unknown'
   band: 'pirate' | 'marine' | 'unknown';
-  level: 'low' | 'mediun' | 'high';
+  level: 'low' | 'medium' | 'high';
   ateDevilFruit: boolean;
-  whichFruit?: string[]
+  whichFruit?: string
 }
 
 
@@ -28,9 +33,55 @@ interface Character{
 export class CharacterComponent  implements OnInit {
 
   @Input() character?: Character;
+  @Output() deleteCharacter = new EventEmitter<void>();
 
-  constructor() { }
+  constructor(
+    private apiService: ApiUnaPiezaService,
+    private utilService: UtilsService,
+    private toastController: ToastController,
+    private router: Router
+
+  ) { }
 
   ngOnInit() {}
+
+  updateCharacter(id: number | undefined){
+
+    if (window.confirm("you want to edit this character?")) {
+      
+      this.apiService.findCharacter(id).subscribe({
+        next: (character: Character) => {
+          
+          this.utilService.updateSelectedCharacter(character);
+          
+          this.router.navigate(['saveCharacter']);
+
+        }
+      })
+    }
+
+  }
+
+  delete(id: number|undefined){
+
+    if (window.confirm("you want to delete this character?")) {
+
+      this.apiService.deleteCharacter(id).subscribe({
+        next: async (response) => {     
+          const toast = await this.toastController.create({
+            message: response.message,
+            duration: 1500,
+            position: "top",
+          });
+          await toast.present();  
+
+          this.deleteCharacter.emit()
+        },
+        error: (error) => {
+          console.error("Error", error)
+        }
+      })
+    }
+  }
 
 }

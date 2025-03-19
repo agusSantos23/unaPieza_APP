@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IonFab, IonFabButton, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { add, arrowBackOutline } from 'ionicons/icons';
+import { UtilsService } from '../utils.service';
 
 
 @Component({
@@ -18,9 +19,9 @@ export class BtnCircleComponent  implements OnInit {
   protected location = inject(Location)
 
 
-  @Input() type?: 'add' | 'back';
+  @Input() type: 'add' | 'back' = 'add';
 
-  constructor() { 
+  constructor(private utilService: UtilsService) { 
     addIcons({add,arrowBackOutline});
   }
 
@@ -34,6 +35,7 @@ export class BtnCircleComponent  implements OnInit {
 
   redirectBack(){
     this.location.back();
+    this.utilService.updateSelectedCharacter(undefined);
   }
 
 }

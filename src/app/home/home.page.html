@@ -7,5 +7,7 @@
 </header>
 
 <main>
- <app-character />
+  @for (character of characterData; track character.id) {
+    <app-character (deleteCharacter)="loadCharacterData()" [character]="character"/>
+  }
 </main>

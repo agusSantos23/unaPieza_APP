@@ -12,10 +12,9 @@
 
   <form [formGroup]="characterForm" (ngSubmit)="save()">
 
-    
     <div>
       <ion-input type="text" fill="solid" label="Name" labelPlacement="floating" helperText="Fill in this field"
-      errorText="Invalid Name" formControlName="name"></ion-input>
+      errorText="Invalid Name" formControlName="name" [value]=""></ion-input>
 
       @if (characterForm.value.name === "" && isSend) {
         <span>Name is required</span>
@@ -36,7 +35,7 @@
    
     <div>
       <ion-select label="What is your side?" label-placement="floating" formControlName="band">
-        <ion-select-option value="pirates">Pirates</ion-select-option>
+        <ion-select-option value="pirate">Pirates</ion-select-option>
         <ion-select-option value="marine">Marine</ion-select-option>
         <ion-select-option value="none">none</ion-select-option>
       </ion-select>

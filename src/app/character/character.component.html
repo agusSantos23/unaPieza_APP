@@ -1,35 +1,38 @@
-
 @let pronoun = character?.gender === 'male' ? 'he' : character?.gender === 'female' ? 'she' : 'it';
 
 <ion-card>
   <ion-card-header>
     <ion-card-title>{{ character?.name }}</ion-card-title>
     @if (character?.band !== 'unknown') {
-      <ion-card-subtitle>{{ character?.band }}</ion-card-subtitle>
+    <ion-card-subtitle>{{ character?.band }}</ion-card-subtitle>
     }
   </ion-card-header>
 
   @switch (character?.level) {
-    @case ('low') {
-      <ion-card-content>
-        {{ character?.name }}, {{ pronoun }} has achieved great feats throughout his career and that is why his level is {{character?.level}}     
-      </ion-card-content>
-    }
-
-    @case ('mediun') {
-      <ion-card-content>
-        {{ character?.name }}, {{ pronoun }} has a promising career, why his level is {{ character?.level }}
-      </ion-card-content>
-    }
-
-    @case ('high') {
-      <ion-card-content>
-        {{ character?.name }}, {{ pronoun }} won't end up doing anything relevant, that's why his level is{{ character?.level }}
-      </ion-card-content>
-    }
+  @case ('low') {
+  <ion-card-content>
+    {{ character?.name }}, {{ pronoun }} has achieved great feats throughout his career and that is why his level is
+    {{character?.level}}
+  </ion-card-content>
   }
-  
 
-  <ion-button fill="clear">Edit</ion-button>
-  <ion-button fill="clear">Delete</ion-button>
+  @case ('medium') {
+  <ion-card-content>
+    {{ character?.name }}, {{ pronoun }} has a promising career, why his level is {{ character?.level }}
+  </ion-card-content>
+  }
+
+  @case ('high') {
+  <ion-card-content>
+    {{ character?.name }}, {{ pronoun }} won't end up doing anything relevant, that's why his level is{{
+    character?.level }}
+  </ion-card-content>
+  }
+  }
+
+  <div>
+    <ion-button fill="clear" (click)="updateCharacter(character?.id)">Edit</ion-button>
+    <ion-button fill="clear" (click)="delete(character?.id)">Delete</ion-button>
+  </div>
+
 </ion-card>
