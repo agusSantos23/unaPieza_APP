@@ -7,7 +7,7 @@ import { Observable, switchMap } from 'rxjs';
 })
 export class ApiUnaPiezaService {
 
-  apiUrl = 'http://127.0.0.1:8000/';
+  private apiUrl:string = 'http://127.0.0.1:8000/';
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +15,6 @@ export class ApiUnaPiezaService {
   viewCharacters():Observable<any>{
     return this.http.get(this.apiUrl)
   }
-
   
   findCharacter(id: number | undefined): Observable<any>{
     return this.http.get(this.apiUrl + `character/${id}`)
@@ -39,6 +38,17 @@ export class ApiUnaPiezaService {
         return this.http.post(this.apiUrl + "character/save", characterData, { headers, withCredentials: true });  
       })
     );
+  }
+
+  updateCharacter(id: number | undefined): Observable<any>{
+    return this.getCsrfToken().pipe(
+      switchMap((response: any) => {
+        const headers = new HttpHeaders({
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': response.csrf_token 
+        }); 
+      })
+    )
   }
 
 

@@ -1,12 +1,13 @@
 import { Component, OnInit, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BtnCircleComponent } from "../btn-circle/btn-circle.component";
+import { BtnCircleComponent } from "../../components/btn-circle/btn-circle.component";
 import { IonInput, IonSelect, IonSelectOption, IonCheckbox } from '@ionic/angular/standalone';
-import { ApiUnaPiezaService } from '../api-una-pieza.service';
+import { ApiUnaPiezaService } from '../../api-una-pieza.service';
 import { Router } from '@angular/router';
-import { Character } from '../character/character.component';
-import { UtilsService } from '../utils.service';
+import { UtilsService } from '../../utils.service';
+import { Character } from 'src/app/models/character.model';
+
 
 
 @Component({
@@ -25,13 +26,12 @@ export class CreateCharacterPage implements OnInit {
     band: new FormControl('', Validators.required),
     level: new FormControl('', Validators.required),
     ateDevilFruit: new FormControl(false),
-    whichFruit: new FormControl(),
+    whichFruit: new FormControl(''),
   })
 
-  characterToEdit!: Character;
+  selectedCharacter!: Character;
 
   isSend: boolean = false;
-
 
   constructor(
     private apiService: ApiUnaPiezaService,
@@ -40,19 +40,16 @@ export class CreateCharacterPage implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.utilsService.selectedCharacter$.subscribe(
-      (character: Character | undefined) => {
-        
-        if (character) {
-          console.log(character);
-          console.log("aaaaaa");
-          
-          this.characterToEdit = character;
-          this.fillForm(character);
-        }
-      }
-    );
+
   }
+
+  ionViewWillEnter() {
+    this.selectedCharacter = history.state.character;
+    if (this.selectedCharacter) {
+      this.fillForm(this.selectedCharacter)
+    }
+  }
+
 
   save() {
     this.isSend = true;
@@ -61,49 +58,65 @@ export class CreateCharacterPage implements OnInit {
       const characterData = this.characterForm.value;
 
       if (characterData.whichFruit && characterData.whichFruit.trim() !== '') {
-        const fruitsArray = characterData.whichFruit.split(', ').map((fruit: string) => fruit.trim());
-        characterData.whichFruit = JSON.stringify(fruitsArray);;
+        characterData.whichFruit = this.utilsService.convertStringToFruits(characterData.whichFruit);
       } else {
         characterData.whichFruit = '[]';
       }
 
-      this.apiService.saveCharacter(characterData).subscribe({
-        next: (response) => {
-          console.log('Datos guardados correctamente', response);
-          this.characterForm.reset();
-          this.isSend = false;
 
-          this.router.navigate(['/']);
-        },
-        error: (error) => {
-          console.error('Error al guardar los datos', error);
-        },
-      });
+      if (!this.selectedCharacter) {
 
-    } else {
-      console.log('Formulario con errores', this.characterForm);
+        this.apiService.saveCharacter(characterData).subscribe({
+          next: () => {
+            this.characterForm.reset();
+            this.isSend = false;
+
+            this.router.navigate(['/']);
+          },
+          error: (error) => {
+            console.error('Error al guardar los datos', error);
+          },
+        });
+
+      }else{
+
+        this.apiService.
+
+      }
+
+    }else {
+      alert(`Formulario con errores: ${this.characterForm}`);
     }
+
   }
 
+
+
   fillForm(character: Character) {
-    
-    if (character.whichFruit) {
-      const whichFruitArray = JSON.parse(character.whichFruit);
-      character.whichFruit = whichFruitArray.length ? whichFruitArray.join(', ') : ''
-    }    
-    
+
+    console.log(character)
+
+    if (character.devil_fruits) {
+      console.log(character.devil_fruits);
+
+
+      character.devil_fruits = this.utilsService.convertFruitsToString(character.devil_fruits)
+    }
+
+
     this.characterForm.patchValue({
       name: character.name,
       gender: character.gender,
       band: character.band,
       level: character.level,
-      ateDevilFruit: character.ateDevilFruit,
-      whichFruit: character.whichFruit
+      ateDevilFruit: character.ateDevilFruit === 1,
+      whichFruit: character.devil_fruits
     });
   }
 
 
   edit() {
+
 
   }
 

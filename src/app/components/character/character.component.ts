@@ -8,19 +8,11 @@ import {
   IonCardTitle,
   ToastController
 } from '@ionic/angular/standalone';
-import { ApiUnaPiezaService } from '../api-una-pieza.service';
-import { UtilsService } from '../utils.service';
+import { ApiUnaPiezaService } from '../../api-una-pieza.service';
+import { UtilsService } from '../../utils.service';
 import { Router } from '@angular/router';
+import { Character } from 'src/app/models/character.model';
 
-export interface Character{
-  id: number | undefined;
-  name: string;
-  gender: 'male' | 'female' | 'unknown'
-  band: 'pirate' | 'marine' | 'unknown';
-  level: 'low' | 'medium' | 'high';
-  ateDevilFruit: boolean;
-  whichFruit?: string
-}
 
 
 @Component({
@@ -50,11 +42,13 @@ export class CharacterComponent  implements OnInit {
     if (window.confirm("you want to edit this character?")) {
       
       this.apiService.findCharacter(id).subscribe({
-        next: (character: Character) => {
+        next: (character) => {
+
+          console.log("Recibido DB:", character);
+
           
-          this.utilService.updateSelectedCharacter(character);
-          
-          this.router.navigate(['saveCharacter']);
+
+          this.router.navigate(['saveCharacter'], {state: {character: character}});
 
         }
       })

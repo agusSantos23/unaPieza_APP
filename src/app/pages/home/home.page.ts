@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CharacterComponent } from "../character/character.component";
-import { BtnCircleComponent } from "../btn-circle/btn-circle.component";
-import { ApiUnaPiezaService } from '../api-una-pieza.service';
+import { CharacterComponent } from "../../components/character/character.component";
+import { BtnCircleComponent } from "../../components/btn-circle/btn-circle.component";
 import { Subscription } from 'rxjs';
+import { ApiUnaPiezaService } from 'src/app/api-una-pieza.service';
 
 
 @Component({

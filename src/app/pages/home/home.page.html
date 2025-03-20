@@ -9,5 +9,7 @@
 <main>
   @for (character of characterData; track character.id) {
     <app-character (deleteCharacter)="loadCharacterData()" [character]="character"/>
+  }@empty {
+    <div>You don't have any characters saved in your account.</div>
   }
 </main>
