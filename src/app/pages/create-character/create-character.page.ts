@@ -78,10 +78,6 @@ export class CreateCharacterPage implements OnInit {
           },
         });
 
-      }else{
-
-        this.apiService.
-
       }
 
     }else {

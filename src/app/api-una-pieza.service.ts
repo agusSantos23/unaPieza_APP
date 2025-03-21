@@ -40,13 +40,16 @@ export class ApiUnaPiezaService {
     );
   }
 
-  updateCharacter(id: number | undefined): Observable<any>{
+  updateCharacter(id: number | undefined, characterData: any): Observable<any>{
     return this.getCsrfToken().pipe(
       switchMap((response: any) => {
         const headers = new HttpHeaders({
           'Content-Type': 'application/json',
           'X-CSRF-TOKEN': response.csrf_token 
         }); 
+
+        return this.http.put(this.apiUrl + `character/update/${id}`, characterData ,{ headers, withCredentials: true });
+
       })
     )
   }
